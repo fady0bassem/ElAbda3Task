@@ -1,7 +1,8 @@
-package com.fadybassem.elabda3task
+package com.fadybassem.elabda3task.ui.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.fadybassem.elabda3task.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -24,6 +24,14 @@ class PreferencesHelper {
             return getPref().getInt(Constants.PAGE, 1)
         }
 
+        fun setRank(id: Int) {
+            getPref().edit().putInt(Constants.RANK, id).apply()
+        }
+
+        fun getRank(): Int? {
+            return getPref().getInt(Constants.RANK, 0)
+        }
+
         fun deletePerefrences() {
             getPref().edit().clear().apply()
         }

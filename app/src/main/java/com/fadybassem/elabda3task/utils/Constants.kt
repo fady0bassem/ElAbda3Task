@@ -7,5 +7,6 @@ class Constants {
         const val SETTINGS_LANGUAGE_CODE = "settings_lang"
 
         const val PAGE = "page"
+        const val RANK = "rank"
     }
 }

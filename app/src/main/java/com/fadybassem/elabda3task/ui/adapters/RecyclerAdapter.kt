@@ -61,6 +61,7 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     }
 
     fun addItems(items: List<Table>) {
+        list.clear()
         list.addAll(items)
         notifyDataSetChanged()
     }

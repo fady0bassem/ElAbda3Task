@@ -3,6 +3,7 @@ package com.fadybassem.elabda3task.ui.activities.main
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.fadybassem.elabda3task.data.PreferencesHelper
 import com.fadybassem.elabda3task.data.remote.ApiClient
 import com.fadybassem.elabda3task.data.remote.ApiInterface
 import com.fadybassem.elabda3task.data.remote.pojo.DataModel
@@ -68,7 +69,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private fun saveDB(jsonResponse: List<DataModel>) {
+        var rank: Int? = PreferencesHelper.getRank()
+
         for (item: DataModel in jsonResponse) {
+            rank = rank?.plus(1)
             val table = Table(
                 item.id,
                 item.owner.avatarUrl,
@@ -76,10 +80,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 item.fullName,
                 item.size,
                 item.forks,
-                item.watchersCount
+                item.watchersCount,
+                rank!!
             )
             database.insert(table)
         }
+        PreferencesHelper.setRank(rank!!)
     }
 
     private fun getDB(): List<Table?>? {

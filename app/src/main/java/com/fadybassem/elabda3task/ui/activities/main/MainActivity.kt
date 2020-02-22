@@ -114,6 +114,13 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
     private fun dataResult() {
         viewModel.loadMoreMutableData.observe(this, Observer<Boolean> {
             loadMore = it
+
+            if (loadMore) {
+                adapter.addLoading()
+            } else {
+                isLastPage = true
+            }
+            isLoading = false
         })
 
         viewModel.errorMutableData.observe(this, Observer<String> { error ->
@@ -140,18 +147,10 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
         viewModel.mutableDataList.observe(this, Observer<List<Table>> {
             if (it != null) {
                 binding.nodataTextview.visibility = View.GONE
-                //if (adapter.itemCount != 0) {
-                    if (currentPage != PAGE_START)
-                        adapter.removeLoading()
-                    adapter.addItems(it)
-                    if (loadMore) {
-                        adapter.addLoading()
-                    } else {
-                        isLastPage = true
-                   // }
-                }
+                if (currentPage != PAGE_START)
+                    adapter.removeLoading()
+                adapter.addItems(it)
 
-                isLoading = false
             }
             dialog.dismiss()
             binding.swiperefreshlayout.isRefreshing = false

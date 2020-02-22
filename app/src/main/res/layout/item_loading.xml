@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.github.loadingview.LoadingView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            app:lv_duration="30"
+            app:lv_end_color="@color/colorPrimary"
+            app:lv_external_radius="@dimen/_10sdp"
+            app:lv_internal_radius="@dimen/_2sdp"
+            app:lv_start_color="@color/colorPrimaryDark" />
+
+        <!--
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background=""/>
+        -->
+
+    </LinearLayout>
+</layout>

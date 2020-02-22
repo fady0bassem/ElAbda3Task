@@ -5,5 +5,6 @@ class ErrorCodes {
         const val ERR_RESPONSE_ERROR = "[201]"
         const val ERR_NETWORK_FAILURE = "[202]"
         const val ERR_CONVERSION_ISSUE = "[203]"
+        const val ERR_TO_HANDLE = "[204]"
     }
 }

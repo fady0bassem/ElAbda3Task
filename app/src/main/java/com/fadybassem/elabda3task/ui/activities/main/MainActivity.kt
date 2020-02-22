@@ -1,6 +1,7 @@
 package com.fadybassem.elabda3task.ui.activities.main
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,12 +12,15 @@ import com.fadybassem.elabda3task.R
 import com.fadybassem.elabda3task.data.remote.pojo.DataModel
 import com.fadybassem.elabda3task.databinding.ActivityMainBinding
 import com.fadybassem.elabda3task.ui.adapters.RecyclerAdapter
+import com.fadybassem.elabda3task.ui.dialouges.CustomAlertDialog
 import com.fadybassem.elabda3task.ui.dialouges.CustomProgressDialog
+import com.fadybassem.elabda3task.ui.interfaces.DialogClickInterface
+import com.fadybassem.elabda3task.utils.ErrorCodes
 import com.fadybassem.elabda3task.utils.PaginationListener
 import com.fadybassem.elabda3task.utils.PaginationListener.Companion.PAGE_START
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DialogClickInterface {
 
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
@@ -74,9 +78,28 @@ class MainActivity : AppCompatActivity() {
         viewModel.getDataList(currentPage)
     }
 
-    private fun dataResult(){
-        viewModel.loadMore.observe(this, Observer<Boolean> {
+    private fun dataResult() {
+        viewModel.loadMoreMutableData.observe(this, Observer<Boolean> {
             loadMore = it
+        })
+
+        viewModel.errorMutableData.observe(this, Observer<String> { error ->
+            when (error) {
+                ErrorCodes.ERR_RESPONSE_ERROR, ErrorCodes.ERR_NETWORK_FAILURE, ErrorCodes.ERR_CONVERSION_ISSUE -> {
+                    CustomAlertDialog.getInstance()?.showErrDialog(this, error, 0, false)
+                }
+                else ->
+                    CustomAlertDialog.getInstance()!!.showInfoDialog(
+                        getString(R.string.error),
+                        error,
+                        getString(R.string.close),
+                        this,
+                        0,
+                        false
+                    )
+
+            }
+            dialog.dismiss()
         })
 
         viewModel.mutableDataList.observe(this, Observer<List<DataModel>> {
@@ -93,5 +116,25 @@ class MainActivity : AppCompatActivity() {
             }
             dialog.dismiss()
         })
+    }
+
+    override fun onClickPositiveButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
+        when (pDialogIntefier) {
+            0 ->
+                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
+                    pDialog,
+                    0
+                )
+        }
+    }
+
+    override fun onClickNegativeButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
+        when (pDialogIntefier) {
+            0 ->
+                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
+                    pDialog,
+                    0
+                )
+        }
     }
 }

@@ -53,7 +53,6 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.7.1"
     implementation "com.squareup.retrofit2:converter-moshi:2.7.1"
 
-
     // JSON Parsing
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
@@ -65,6 +64,11 @@ dependencies {
 
     // OKHTTP
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+
+    // Room components
+    implementation "androidx.room:room-runtime:2.2.4"
+    implementation "androidx.room:room-ktx:2.2.4"
+    kapt "androidx.room:room-compiler:2.2.4"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'

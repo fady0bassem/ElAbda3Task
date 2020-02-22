@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fadybassem.elabda3task.data.remote.pojo.DataModel
+import com.fadybassem.elabda3task.data.room.Table
 import com.fadybassem.elabda3task.databinding.ItemDataBinding
 import com.fadybassem.elabda3task.databinding.ItemLoadingBinding
 import kotlinx.android.synthetic.main.item_loading.view.*
@@ -15,7 +16,7 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     private val VIEW_TYPE_NORMAL = 1
     private var isLoaderVisible = false
 
-    private val list = ArrayList<DataModel>()
+    private val list = ArrayList<Table>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         var view: BaseViewHolder? = null
@@ -53,13 +54,13 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         return list.size
     }
 
-    fun setList(list: ArrayList<DataModel>) {
+    fun setList(list: ArrayList<Table>) {
         this.list.addAll(list)
         //notifyItemRangeInserted(0, categoryModel.size)
         notifyDataSetChanged()
     }
 
-    fun addItems(items: List<DataModel>) {
+    fun addItems(items: List<Table>) {
         list.addAll(items)
         notifyDataSetChanged()
     }
@@ -73,7 +74,7 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     fun removeLoading() {
         isLoaderVisible = false
         val position: Int = list.size - 1
-        val item: DataModel? = getItem(position)
+        val item: Table? = getItem(position)
         if (item != null) {
             list.removeAt(position)
             notifyItemRemoved(position)
@@ -85,14 +86,14 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): DataModel? {
+    fun getItem(position: Int): Table? {
         return list.get(position)
     }
 
     inner class ViewHolder(private var itemDataBinding: ItemDataBinding) :
         BaseViewHolder(itemDataBinding.root) {
         override fun clear() {}
-        override fun bind(data: DataModel) {
+        override fun bind(data: Table) {
             itemDataBinding.dataMdodel = data
         }
     }
@@ -100,7 +101,7 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     inner class ProgressHolder(private var itemLoadingBinding: ItemLoadingBinding) :
         BaseViewHolder(itemLoadingBinding.root) {
         override fun clear() {}
-        override fun bind(data: DataModel) {
+        override fun bind(data: Table) {
             itemLoadingBinding.root.loading.start()
         }
     }

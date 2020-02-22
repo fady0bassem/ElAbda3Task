@@ -2,8 +2,7 @@ package com.fadybassem.elabda3task.ui.adapters
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.fadybassem.elabda3task.data.remote.pojo.DataModel
-
+import com.fadybassem.elabda3task.data.room.Table
 
 abstract class BaseViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
     var currentPosition = 0
@@ -16,6 +15,6 @@ abstract class BaseViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemVie
         clear()
     }
 
-    abstract fun bind(data: DataModel)
+    abstract fun bind(data: Table)
 
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="dataMdodel"
-            type="com.fadybassem.elabda3task.data.remote.pojo.DataModel" />
+            type="com.fadybassem.elabda3task.data.room.Table" />
     </data>
 
     <LinearLayout
@@ -37,7 +37,7 @@
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_60sdp"
                         android:layout_margin="@dimen/_5sdp"
-                        android:img="@{dataMdodel.owner.avatarUrl}"
+                        android:img="@{dataMdodel.avatarUrl}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:srcCompat="@tools:sample/avatars" />

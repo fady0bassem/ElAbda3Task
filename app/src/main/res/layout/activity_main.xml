@@ -47,16 +47,17 @@
             android:id="@+id/nodata_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_data"
             android:fontFamily="@font/quicksand_medium_500"
-            android:textSize="@dimen/_15sdp"
+            android:onClick="@{() -> mainModelHome.reload()}"
+            android:text="@string/no_data"
             android:textAlignment="center"
             android:textColor="@color/darker_gray"
+            android:textSize="@dimen/_15sdp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/swiperefreshlayout"
             app:layout_constraintEnd_toEndOf="@+id/swiperefreshlayout"
             app:layout_constraintStart_toStartOf="@+id/swiperefreshlayout"
-            app:layout_constraintTop_toTopOf="@+id/swiperefreshlayout"
-            android:onClick="@{() -> mainModelHome.reload()}"/>
+            app:layout_constraintTop_toTopOf="@+id/swiperefreshlayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

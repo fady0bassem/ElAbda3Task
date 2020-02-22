@@ -2,12 +2,13 @@ package com.fadybassem.elabda3task.utils
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fadybassem.elabda3task.data.PreferencesHelper
 
 abstract class PaginationListener(var layoutManager: LinearLayoutManager) :
     RecyclerView.OnScrollListener() {
 
     companion object {
-        val PAGE_START = 1
+        val PAGE_START = PreferencesHelper.getPage()
     }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

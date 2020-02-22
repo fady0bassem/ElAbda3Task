@@ -11,7 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fadybassem.elabda3task.R
-import com.fadybassem.elabda3task.data.remote.pojo.DataModel
+import com.fadybassem.elabda3task.data.PreferencesHelper
+import com.fadybassem.elabda3task.data.room.Table
 import com.fadybassem.elabda3task.databinding.ActivityMainBinding
 import com.fadybassem.elabda3task.ui.activities.base.BaseActivity
 import com.fadybassem.elabda3task.ui.adapters.RecyclerAdapter
@@ -28,14 +29,14 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
 
-    private var dataList: ArrayList<DataModel> = ArrayList()
+    private var dataList: ArrayList<Table> = ArrayList()
 
     private lateinit var adapter: RecyclerAdapter
     private lateinit var dialog: Dialog
 
     private val layoutManager = LinearLayoutManager(this)
 
-    private var currentPage: Int = PAGE_START
+    private var currentPage: Int = PreferencesHelper.getPage()!!
     private var isLastPage = false
     private var isLoading = false
     private var loadMore = false
@@ -77,10 +78,10 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
     }
 
     override fun onRefresh() {
-        reload()
+        viewModel.reload()
     }
 
-    fun setRecyclerView(dataList: ArrayList<DataModel>) {
+    fun setRecyclerView(dataList: ArrayList<Table>) {
         adapter = RecyclerAdapter()
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
@@ -91,6 +92,7 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
             override fun loadMoreItems() {
                 isLoading = true
                 currentPage++
+                PreferencesHelper.setPage(currentPage)
                 getData()
             }
 
@@ -135,17 +137,20 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
             binding.swiperefreshlayout.isRefreshing = false
         })
 
-        viewModel.mutableDataList.observe(this, Observer<List<DataModel>> {
+        viewModel.mutableDataList.observe(this, Observer<List<Table>> {
             if (it != null) {
                 binding.nodataTextview.visibility = View.GONE
-
-                if (currentPage != PAGE_START) adapter.removeLoading()
-                adapter.addItems(it)
-                if (loadMore) {
-                    adapter.addLoading()
-                } else {
-                    isLastPage = true
+                //if (adapter.itemCount != 0) {
+                    if (currentPage != PAGE_START)
+                        adapter.removeLoading()
+                    adapter.addItems(it)
+                    if (loadMore) {
+                        adapter.addLoading()
+                    } else {
+                        isLastPage = true
+                   // }
                 }
+
                 isLoading = false
             }
             dialog.dismiss()
@@ -159,7 +164,6 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
 
     private fun reload() {
         itemCount = 0
-        currentPage = PAGE_START
         isLastPage = false
         adapter.clear()
         getData()

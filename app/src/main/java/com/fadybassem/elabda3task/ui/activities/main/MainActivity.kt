@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private var currentPage: Int = PAGE_START
     private var isLastPage = false
     private var isLoading = false
+    private var loadMore = false
     var itemCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         setRecyclerView(dataList)   //send empty list initially
         dialog = CustomProgressDialog.loadingIndicatorView(this, true)
+        dataResult()
         getData()
     }
 
@@ -69,20 +71,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        viewModel.getDataList(PAGE_START).observe(this, Observer<List<DataModel>> { it ->
-            if (it != null) {
-                adapter.setList(it as java.util.ArrayList<DataModel>)
+        viewModel.getDataList(currentPage)
+    }
 
-                // check weather is last page or not
-                if (it.isNotEmpty()) {
+    private fun dataResult(){
+        viewModel.loadMore.observe(this, Observer<Boolean> {
+            loadMore = it
+        })
+
+        viewModel.mutableDataList.observe(this, Observer<List<DataModel>> {
+            if (it != null) {
+                if (currentPage != PAGE_START) adapter.removeLoading()
+                adapter.addItems(it)
+
+                if (loadMore) {
                     adapter.addLoading()
                 } else {
                     isLastPage = true
                 }
                 isLoading = false
             }
-            if (dialog != null)
-                dialog.dismiss()
+            dialog.dismiss()
         })
     }
 }

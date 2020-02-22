@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fadybassem.elabda3task.data.remote.pojo.DataModel
 import com.fadybassem.elabda3task.databinding.ItemDataBinding
 import com.fadybassem.elabda3task.databinding.ItemLoadingBinding
+import kotlinx.android.synthetic.main.item_loading.view.*
 import java.util.*
 
 class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
@@ -90,19 +91,17 @@ class RecyclerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     inner class ViewHolder(private var itemDataBinding: ItemDataBinding) :
         BaseViewHolder(itemDataBinding.root) {
-
+        override fun clear() {}
         override fun bind(data: DataModel) {
             itemDataBinding.dataMdodel = data
         }
-
-        override fun clear() {}
     }
 
-    inner class ProgressHolder(itemLoadingBinding: ItemLoadingBinding) :
+    inner class ProgressHolder(private var itemLoadingBinding: ItemLoadingBinding) :
         BaseViewHolder(itemLoadingBinding.root) {
-
         override fun clear() {}
         override fun bind(data: DataModel) {
+            itemLoadingBinding.root.loading.start()
         }
     }
 }

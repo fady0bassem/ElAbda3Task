@@ -13,12 +13,13 @@ import retrofit2.Response
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
     var dataList: ArrayList<DataModel> = ArrayList()
-    private val mutableDataList: MutableLiveData<List<DataModel>> = MutableLiveData()
+    val mutableDataList: MutableLiveData<List<DataModel>> = MutableLiveData()
+    val loadMore: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getDataList(page: Int): MutableLiveData<List<DataModel>> {
+    fun getDataList(page: Int) {
 
         val apiServices = ApiClient.client.create(ApiInterface::class.java)
-        val call = apiServices.gatApiData(page,6)
+        val call = apiServices.gatApiData(page, 10)
 
         call.enqueue(object : retrofit2.Callback<List<DataModel>> {
             override fun onResponse(
@@ -26,6 +27,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 response: Response<List<DataModel>>
             ) {
                 val jsonResponse = response.body()
+
+                if (jsonResponse?.isEmpty()!!)
+                    loadMore.postValue(false)
+                else
+                    loadMore.postValue(true)
+
                 mutableDataList.postValue(jsonResponse)
             }
 
@@ -33,7 +40,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 Log.d("ERROR : ", t?.localizedMessage.toString())
             }
         })
-        return mutableDataList
     }
 
 }

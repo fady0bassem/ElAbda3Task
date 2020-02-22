@@ -3,14 +3,12 @@ package com.fadybassem.elabda3task.utils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class PaginationListener(var layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+abstract class PaginationListener(var layoutManager: LinearLayoutManager) :
+    RecyclerView.OnScrollListener() {
 
-    companion object{
+    companion object {
         val PAGE_START = 1
-
     }
-
-    private val PAGE_SIZE = 10
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
@@ -19,8 +17,7 @@ abstract class PaginationListener(var layoutManager: LinearLayoutManager) : Recy
         val totalItemCount: Int = layoutManager.itemCount
         val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
         if (!isLoading() && !isLastPage()) {
-            if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE
-            ) {
+            if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition > 0) {
                 loadMoreItems()
             }
         }

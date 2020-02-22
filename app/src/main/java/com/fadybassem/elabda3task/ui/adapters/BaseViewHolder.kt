@@ -10,6 +10,7 @@ abstract class BaseViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemVie
         private set
 
     protected abstract fun clear()
+
     open fun onBind(position: Int) {
         currentPosition = position
         clear()

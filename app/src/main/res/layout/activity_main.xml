@@ -23,8 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefreshlayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_5sdp"
@@ -34,7 +34,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
             android:id="@+id/nodata_textview"
@@ -45,10 +52,10 @@
             android:textSize="@dimen/_15sdp"
             android:textAlignment="center"
             android:textColor="@color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerview"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerview"
-            app:layout_constraintStart_toStartOf="@+id/recyclerview"
-            app:layout_constraintTop_toTopOf="@+id/recyclerview"
+            app:layout_constraintBottom_toBottomOf="@+id/swiperefreshlayout"
+            app:layout_constraintEnd_toEndOf="@+id/swiperefreshlayout"
+            app:layout_constraintStart_toStartOf="@+id/swiperefreshlayout"
+            app:layout_constraintTop_toTopOf="@+id/swiperefreshlayout"
             android:onClick="@{() -> mainModelHome.reload()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,21 +14,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutResourceId())
+
         onViewReady(savedInstanceState, intent)
     }
-
-    override fun setContentView(layoutResID: Int) {
-        base_linearlayout = layoutInflater.inflate(R.layout.base_activity, null) as LinearLayout
-
-        val base_linearlayout: LinearLayout =
-            base_linearlayout!!.findViewById(R.id.base_linearlayout)
-        layoutInflater.inflate(layoutResID, base_linearlayout, true)
-
-        super.setContentView(base_linearlayout)
-    }
-
-    protected abstract fun getLayoutResourceId(): Int
 
     @CallSuper
     open fun onViewReady(savedInstanceState: Bundle?, intent: Intent) {

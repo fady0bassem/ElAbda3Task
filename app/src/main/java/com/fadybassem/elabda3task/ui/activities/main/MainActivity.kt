@@ -2,16 +2,18 @@ package com.fadybassem.elabda3task.ui.activities.main
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fadybassem.elabda3task.R
 import com.fadybassem.elabda3task.data.remote.pojo.DataModel
 import com.fadybassem.elabda3task.databinding.ActivityMainBinding
+import com.fadybassem.elabda3task.ui.activities.base.BaseActivity
 import com.fadybassem.elabda3task.ui.adapters.RecyclerAdapter
 import com.fadybassem.elabda3task.ui.dialouges.CustomAlertDialog
 import com.fadybassem.elabda3task.ui.dialouges.CustomProgressDialog
@@ -21,28 +23,32 @@ import com.fadybassem.elabda3task.utils.PaginationListener
 import com.fadybassem.elabda3task.utils.PaginationListener.Companion.PAGE_START
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class MainActivity : AppCompatActivity(), DialogClickInterface {
+class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
+
     private var dataList: ArrayList<DataModel> = ArrayList()
+
     private lateinit var adapter: RecyclerAdapter
     private lateinit var dialog: Dialog
 
-    val layoutManager = LinearLayoutManager(this)
+    private val layoutManager = LinearLayoutManager(this)
 
     private var currentPage: Int = PAGE_START
     private var isLastPage = false
     private var isLoading = false
     private var loadMore = false
-    var itemCount = 0
+    private var itemCount = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewReady(savedInstanceState: Bundle?, intent: Intent) {
+        super.onViewReady(savedInstanceState, intent)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         binding.mainModelHome = viewModel
+
+        binding.swiperefreshlayout.setOnRefreshListener(this)
 
         setRecyclerView(dataList)   //send empty list initially
         dialog = CustomProgressDialog.loadingIndicatorView(this, true)
@@ -68,6 +74,10 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
                     0
                 )
         }
+    }
+
+    override fun onRefresh() {
+        reload()
     }
 
     fun setRecyclerView(dataList: ArrayList<DataModel>) {
@@ -122,6 +132,7 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
             }
             dialog.dismiss()
             binding.nodataTextview.visibility = View.VISIBLE
+            binding.swiperefreshlayout.isRefreshing = false
         })
 
         viewModel.mutableDataList.observe(this, Observer<List<DataModel>> {
@@ -130,7 +141,6 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
 
                 if (currentPage != PAGE_START) adapter.removeLoading()
                 adapter.addItems(it)
-
                 if (loadMore) {
                     adapter.addLoading()
                 } else {
@@ -139,14 +149,15 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
                 isLoading = false
             }
             dialog.dismiss()
+            binding.swiperefreshlayout.isRefreshing = false
         })
 
         viewModel.reloadMutableData.observe(this, Observer<Boolean> {
-           reload()
+            reload()
         })
     }
 
-    private fun reload(){
+    private fun reload() {
         itemCount = 0
         currentPage = PAGE_START
         isLastPage = false

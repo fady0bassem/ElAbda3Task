@@ -37,6 +37,7 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginRight="@dimen/_15sdp"
             android:text="AlertDialog Message"
+            android:textAlignment="center"
             android:fontFamily="@font/quicksand_light_300"
             android:textSize="@dimen/_16sdp"
             android:textColor="@color/gray"/>

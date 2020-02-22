@@ -3,6 +3,7 @@ package com.fadybassem.elabda3task.ui.activities.main
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -47,6 +48,26 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
         dialog = CustomProgressDialog.loadingIndicatorView(this, true)
         dataResult()
         getData()
+    }
+
+    override fun onClickPositiveButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
+        when (pDialogIntefier) {
+            0 ->
+                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
+                    pDialog,
+                    0
+                )
+        }
+    }
+
+    override fun onClickNegativeButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
+        when (pDialogIntefier) {
+            0 ->
+                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
+                    pDialog,
+                    0
+                )
+        }
     }
 
     fun setRecyclerView(dataList: ArrayList<DataModel>) {
@@ -100,10 +121,13 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
 
             }
             dialog.dismiss()
+            binding.nodataTextview.visibility = View.VISIBLE
         })
 
         viewModel.mutableDataList.observe(this, Observer<List<DataModel>> {
             if (it != null) {
+                binding.nodataTextview.visibility = View.GONE
+
                 if (currentPage != PAGE_START) adapter.removeLoading()
                 adapter.addItems(it)
 
@@ -116,25 +140,17 @@ class MainActivity : AppCompatActivity(), DialogClickInterface {
             }
             dialog.dismiss()
         })
+
+        viewModel.reloadMutableData.observe(this, Observer<Boolean> {
+           reload()
+        })
     }
 
-    override fun onClickPositiveButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
-        when (pDialogIntefier) {
-            0 ->
-                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
-                    pDialog,
-                    0
-                )
-        }
-    }
-
-    override fun onClickNegativeButton(pDialog: DialogInterface?, pDialogIntefier: Int) {
-        when (pDialogIntefier) {
-            0 ->
-                CustomAlertDialog.getInstance()!!.onClickNegativeButton(
-                    pDialog,
-                    0
-                )
-        }
+    private fun reload(){
+        itemCount = 0
+        currentPage = PAGE_START
+        isLastPage = false
+        adapter.clear()
+        getData()
     }
 }

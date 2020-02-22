@@ -1,6 +1,7 @@
 package com.fadybassem.elabda3task.ui.activities.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fadybassem.elabda3task.data.remote.ApiClient
@@ -17,6 +18,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     val mutableDataList: MutableLiveData<List<DataModel>> = MutableLiveData()
     val loadMoreMutableData: MutableLiveData<Boolean> = MutableLiveData()
     val errorMutableData: MutableLiveData<String> = MutableLiveData()
+    val reloadMutableData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getDataList(page: Int) {
 
@@ -57,4 +59,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         })
     }
 
+    fun reload(){
+        reloadMutableData.postValue(true)
+    }
 }

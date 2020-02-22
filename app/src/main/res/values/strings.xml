@@ -24,6 +24,6 @@
     <string name="connection_err">Error while trying to connect to the server.</string>
     <string name="NoInternetConnection">No Internet Connection.</string>
     <string name="unknown_error">Unknown error.</string>
-    <string name="no_data">No data available</string>
+    <string name="no_data">No data available\nPress Here To Try Reload!</string>
 
 </resources>

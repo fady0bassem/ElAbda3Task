@@ -17,4 +17,6 @@ Each item on list should contain basic info such as (owner image - repository na
 - preferred to use the following technologies  (RXJava - coroutines - Dagger – Retrofit ,…..).
 - App should be delivered in 1 day with all required functionalities
 - In case you think you will miss the deadline please push your code and continue working and enhancing in subsequent commits.
+
 - Enhancing app after pushing the code is more than welcome.
+![](tut.gif)

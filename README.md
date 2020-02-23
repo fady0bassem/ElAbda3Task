@@ -2,7 +2,7 @@
 Implementation of a native app that shows Jake Wharton Github repositories as a list. 
 Each item on list should contain basic info such as (owner image - repository name – views ..etc.)
 
-                            ![](tut.gif)
+   ![](tut.gif)
 
 
 ## SPECEFICATIONS

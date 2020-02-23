@@ -21,7 +21,7 @@ import com.fadybassem.elabda3task.ui.dialouges.CustomProgressDialog
 import com.fadybassem.elabda3task.ui.interfaces.DialogClickInterface
 import com.fadybassem.elabda3task.utils.ErrorCodes
 import com.fadybassem.elabda3task.utils.PaginationListener
-import com.fadybassem.elabda3task.utils.PaginationListener.Companion.PAGE_START
+import com.fadybassem.elabda3task.utils.WrapContentLinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.OnRefreshListener {
@@ -34,7 +34,12 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
     private lateinit var adapter: RecyclerAdapter
     private lateinit var dialog: Dialog
 
-    private val layoutManager = LinearLayoutManager(this)
+    //private val layoutManager = LinearLayoutManager(this)
+    var layoutManager: WrapContentLinearLayoutManager = WrapContentLinearLayoutManager(
+        this,
+        LinearLayoutManager.VERTICAL,
+        false
+    )
 
     private var currentPage: Int = PreferencesHelper.getPage()!!
     private var isLastPage = false
@@ -147,7 +152,7 @@ class MainActivity : BaseActivity(), DialogClickInterface, SwipeRefreshLayout.On
         viewModel.mutableDataList.observe(this, Observer<List<Table>> {
             if (it != null) {
                 binding.nodataTextview.visibility = View.GONE
-                if (currentPage != PAGE_START)
+                if (currentPage != PreferencesHelper.getPage())
                     adapter.removeLoading()
                 adapter.addItems(it)
 

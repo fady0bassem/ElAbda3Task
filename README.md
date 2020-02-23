@@ -2,6 +2,9 @@
 Implementation of a native app that shows Jake Wharton Github repositories as a list. 
 Each item on list should contain basic info such as (owner image - repository name – views ..etc.)
 
+                            ![](tut.gif)
+
+
 ## SPECEFICATIONS
 - Use pagination (request 15 items per request). 
 - When the user reaches the third item from the bottom, request another batch.
@@ -17,6 +20,3 @@ Each item on list should contain basic info such as (owner image - repository na
 - preferred to use the following technologies  (RXJava - coroutines - Dagger – Retrofit ,…..).
 - App should be delivered in 1 day with all required functionalities
 - In case you think you will miss the deadline please push your code and continue working and enhancing in subsequent commits.
-
-- Enhancing app after pushing the code is more than welcome.
-![](tut.gif)
